@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>测试 | Dream</title>
+<title>并查集 | Dream</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1595314217190">
+<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1595471401612">
 <link rel="stylesheet" href="https://dream-huan.github.io//styles/main.css">
 
 
@@ -18,8 +18,11 @@
 
 
 
-    <meta name="description" content="测试
-" />
+    <meta name="description" content="我们先来看一道题，该题为b站2019年的秋招编程面试题。
+题目：
+小A最多会新认识的多少人
+内容：
+小A参加了一个n人的活动，每个人都有一个唯一编号i(i&gt;=0 &amp; i&lt;n)，其中m对相互认识，在活动中两个人可以通过互相..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -29,7 +32,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://dream-huan.github.io/">
-        <img src="https://dream-huan.github.io//images/avatar.png?v=1595314217190" class="site-logo">
+        <img src="https://dream-huan.github.io//images/avatar.png?v=1595471401612" class="site-logo">
         <h1 class="site-title">Dream</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -89,11 +92,64 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">测试</h2>
+            <h2 class="post-title">并查集</h2>
             <div class="post-date">2020-07-21</div>
             
             <div class="post-content" v-pre>
-              <p>测试</p>
+              <p>我们先来看一道题，该题为b站2019年的秋招编程面试题。<br>
+题目：<br>
+小A最多会新认识的多少人<br>
+内容：<br>
+小A参加了一个n人的活动，每个人都有一个唯一编号i(i&gt;=0 &amp; i&lt;n)，其中m对相互认识，在活动中两个人可以通过互相都认识的一个人介绍认识。现在问活动结束后，小A最多会认识多少人？<br>
+你会发现，好像不论用什么方法都似乎无法完全解决这道题目(<s>大牛请忽视</s>)，set？似乎并行不通。<br>
+这个时候，利用并查集就能非常方便将此题解决。<br>
+先简要说下什么是并查集吧。<br>
+我们使用图来说明：<br>
+拿这道例题为例，我假设小A和小B认识，小B和小C认识。那么显然，这道题是希望我们判断小A和小C的时候，也认为他们会认识。<br>
+我们先创建两个节点，小A和小B，然后将他们连接起来。<br>
+<img src="https://dream-huan.github.io//post-images/1595317230711.jpg" alt="图1" loading="lazy"><br>
+然后再将小B和小C连接起来<br>
+<img src="https://dream-huan.github.io//post-images/1595317312946.jpg" alt="图2" loading="lazy"><br>
+是不是感觉，这越来越像一棵树？<br>
+没错！并查集就是一种树形的数据结构。</p>
+<blockquote>
+<p>这时候我们把小A看作根，把小B和小C看作节点。显然，小A是小B和小C的祖先。<br>
+所以我们这时候判断小A认识多少人，只需要判断这棵树除了小A有多少节点就可以了！</p>
+</blockquote>
+<p>我们可以拟定一个find函数，这个函数用于发现一个节点的祖先。我们设定数组a用于储存关系。数组a的数值即为它的父亲(或自己)。<br>
+把小A看成第一位，他本人就是最大的，即<code>a[1]=1;</code><br>
+函数如下：</p>
+<pre><code class="language-c">    inline int find(int x){
+        if(a[x]==x) return x;//如果数值就是它本身即为本人就是先祖
+        else return find(a[x]);//若他自己不是先祖，那继续寻找他的父亲，直到找到先祖为止
+    }
+</code></pre>
+<p>欸，我们现在是不是很容易就知道小A与小X是否认识了？假设小X用int x表示只要满足<br>
+<code>if(find(x)==1) //这时候他们就认识，否则就不认识</code></p>
+<p>接下来的代码基本可以自行解决了。</p>
+<h2 id="路径压缩"><strong>路径压缩</strong></h2>
+<p>来到本节的第一个也是唯一一个重点，路径压缩，即把所有节点的祖先直接定为最高的祖先。<br>
+我们通过思考上面的方法就会发现，find函数往往会做出很多重复的劳动，如果对于解决海量数据将会耗费比较多的时间。<br>
+举个例子，假如小A与小B认识，小B与小C认识，那么这个时候我们在判断小A与小C是否认识时，find函数是否需要执行两次？小C的父亲是B，find函数先找到它的父亲B，再通过一次find函数才能找到先祖A。<br>
+那假如小C下还有人呢？这样重复运算的工作是不是过大了？<br>
+路径压缩，实际上就是将图2转化为下面这种样子：<br>
+<img src="https://dream-huan.github.io//post-images/1595470494381.jpg" alt="" loading="lazy"><br>
+那么这个时候，小C下面的人是不是查询就节约了时间？<br>
+所以可以写出新的find函数如下：</p>
+<pre><code class="language-c">    inline int find(int x){
+        if(a[x]==x) return x;
+        else return a[x]=find(a[x]);
+    }
+</code></pre>
+<h2 id="总结"><strong>总结</strong></h2>
+<p>简要提一下inline是什么：</p>
+<blockquote>
+<p>inline翻译即为内联函数，对于两个相关联的函数可以提高一些运算效率,但是如果两个函数无关编译器会自动忽略inline。</p>
+</blockquote>
+<p>其实，并查集的方法都与以上大同小异，做两道并查集模板题看看吧！<br>
+包括亲戚关系等的题目都可以轻松解决。<br>
+<a href="https://www.luogu.com.cn/problem/P3367">洛谷P3367【模板】并查集</a><br>
+<a href="https://www.luogu.com.cn/problem/P1551">洛谷P1551 亲戚</a></p>
 
             </div>
             
