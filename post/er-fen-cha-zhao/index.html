@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1595581111897">
+<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1595653200288">
 <link rel="stylesheet" href="https://dream-huan.github.io//styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://dream-huan.github.io/">
-        <img src="https://dream-huan.github.io//images/avatar.png?v=1595581111897" class="site-logo">
+        <img src="https://dream-huan.github.io//images/avatar.png?v=1595653200288" class="site-logo">
         <h1 class="site-title">Dream</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -138,17 +138,35 @@ m:要求的木头数<br>
 left，right:二分左，右边<br>
 数组a:储存每棵树的高度</p>
 <pre><code>while(left&lt;=right){
-    mid=(left+right)/2;
+    mid=(left+right)/2;//二分取中间值
     for(int i=0;i&lt;n;i++){
         if(a[i]&gt;mid)  zg+=(a[i]-mid);//模板这里随着题目条件不同而变化
     }
-    if(zg&lt;m) right=mid-1;
-    else left=mid+1;
+    if(zg&lt;m) right=mid-1;//木材少了，高度降低，即往左边移动。
+    else left=mid+1;//木材多了，高度增加，即往右边移动。
 }
 </code></pre>
 <p>最后<code>cout&lt;&lt;left-1&lt;&lt;endl;</code>即可。</p>
 <blockquote>
 <p>思考1：为什么是输出的是left-1而不是mid-1？</p>
+</blockquote>
+<p>此时，我们就可以单独提取模板，写出伪代码了：</p>
+<pre><code>while(left&lt;=right){
+    mid=(left+right)/2;//二分取中间值
+    for(int i=0;i&lt;n;i++){
+        if(...)  ...;//模板这里随着题目条件不同而变化
+    }
+    if(...)  往左移动；
+    else 往右移动；
+}
+</code></pre>
+<p>总结这个模板就是：</p>
+<blockquote>
+<ol>
+<li>先取0-最大的中间值进行尝试，判断是否符合题目条件。</li>
+<li>不符合条件的继续左/右端点往右/左移动，直至符合条件为止。</li>
+<li>符合条件继续尝试，直至达到要求的最大值。</li>
+</ol>
 </blockquote>
 <p>好，此时模板我们学<s>废</s>会了，我们来尝试一下另外一道同样可以直接套用该模板的题目：<br>
 出处：<a href="https://www.luogu.com.cn/problem/P2440">洛谷P2440 木材加工</a></p>
@@ -164,27 +182,28 @@ left，right:二分左，右边<br>
 <pre><code class="language-c">#include&lt;bits/stdc++.h&gt;
 using namespace std;
 typedef long long ll;
-ll n,k,zb,yb,mid,ks;
+ll n,k,left,right,mid,ks;
 int main(){
 	cin&gt;&gt;n&gt;&gt;k;
 	k--;
 	vector&lt;ll&gt;a;
 	for(int i=0;i&lt;n;i++){
 		ll temp;cin&gt;&gt;temp;a.push_back(temp);
-		yb=max(yb,a[i]);
+		right=max(right,a[i]);
 	}
-	while(zb&lt;=yb){
+    //直接套模板
+	while(left&lt;=right){
 		ks=0;
-		mid=(zb+yb)/2;
+		mid=(left+right)/2;
 		if(mid==0){
 			cout&lt;&lt;0&lt;&lt;endl;
 			return 0;
 		}
 		for(int i=0;i&lt;n;i++) ks+=(a[i]/mid);
-		if(ks&gt;k) zb=mid+1;
-		else yb=mid-1;
+		if(ks&gt;k) left=mid+1;
+		else right=mid-1;
 	}
-	cout&lt;&lt;zb-1&lt;&lt;endl;
+	cout&lt;&lt;left-1&lt;&lt;endl;
 	return 0;
 }
 
@@ -208,8 +227,8 @@ int main(){
 那么就有：<br>
 mid=x<br>
 而执行完最后一次循环后，<br>
-第一种情况：mid=x-1<br>
-第二种情况：mid=x<br>
+第一种情况：mid=x (原式(2x+1)/2)<br>
+第二种情况：mid=x-1（原式(2x-1)/2)<br>
 我们想要的答案是高度尽可能高，所以我们要取尽可能高的答案，毫无疑问，在满足条件的情况下，我们应该输出<code>max(x,x-1)-1</code>（即左边-1）了。</p>
 <h3 id="2-为什么需要k-这道题和刚才那一道有什么不同">2. 为什么需要k--？这道题和刚才那一道有什么不同？</h3>
 <p>先回答后者，两个题目一个是求最低，一个是求最高。<br>
