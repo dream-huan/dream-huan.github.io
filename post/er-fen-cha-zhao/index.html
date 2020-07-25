@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1595653200288">
+<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1595653746321">
 <link rel="stylesheet" href="https://dream-huan.github.io//styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://dream-huan.github.io/">
-        <img src="https://dream-huan.github.io//images/avatar.png?v=1595653200288" class="site-logo">
+        <img src="https://dream-huan.github.io//images/avatar.png?v=1595653746321" class="site-logo">
         <h1 class="site-title">Dream</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -212,6 +212,12 @@ int main(){
 <p>思考2：为什么需要k--？这道题和刚才那一道有什么不同？</p>
 </blockquote>
 <p>除了二分，还有三分等等，这部分内容读者可以自行搜索学习。</p>
+<h1 id="lower_bound和upper_bound">lower_bound和upper_bound</h1>
+<p>lower_bound(a,a+n,x)-a<br>
+返回在a数组[0,n]范围内第一个大于等于x的数，如果没有则返回n+1（注意数组越界！）<br>
+upper_bound(a,a+n,x)-a<br>
+返回在a数组[0,n]范围内第一个大于x的数，如果没有则返回n+1（注意数组越界！）<br>
+<strong>可以使用这两个函数更快地解决二分的题目，很好理解，这部分希望读者自行探索吧。</strong></p>
 <h1 id="总结">总结：</h1>
 <p>二分在解决许多问题都能展现它独特的优势，不过二分往往不止可以通过模板来体现。可以尝试刷更多的题来巩固吧！<br>
 <a href="https://www.luogu.com.cn/problem/P1678">烦恼的高考志愿</a><br>
