@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>标签列表 | Dream</title>
+<title>近期，所有Azure发生的事情总结(2020.8.5) | Dream</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -12,13 +12,25 @@
 <link rel="stylesheet" href="https://dream-huan.github.io//styles/main.css">
 
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
 
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 
 
-    <meta name="description" content="一个菜鸡的博客呀~">
+    <meta name="description" content="
+始于7月初的3500大规模封禁事件之后，时间来到8月初，200刀风控猛升。
+
+对于这些，我只想说，薅羊毛，适可而止。
+Azure3500:
+在Azue3500账号大规模被封禁之后，新申请的npo账号面临无法看到Azure credits的..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -86,10 +98,37 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
+          <div class="post-detail">
+            <h2 class="post-title">近期，所有Azure发生的事情总结(2020.8.5)</h2>
+            <div class="post-date">2020-08-05</div>
             
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>始于7月初的3500大规模封禁事件之后，时间来到8月初，200刀风控猛升。</p>
+</blockquote>
+<p><strong>对于这些，我只想说，薅羊毛，适可而止。</strong></p>
+<h2 id="azure3500">Azure3500:</h2>
+<p>在Azue3500账号大规模被封禁之后，新申请的npo账号面临无法看到Azure credits的问题，（但是提额接口是开放的），这个问题至今没有解决。也就是有些账号能看到，有些不能。如图所示。尝试/offers/azure会直接回退到主页面。</p>
+<figure data-type="image" tabindex="1"><img src="https://dream-huan.github.io//post-images/1596615587515.png" alt="" loading="lazy"></figure>
+<p>目前暂不清楚什么时候能重新看到。</p>
+<p>但是可以确定的是，肯定是谁触碰到了微软的红线，才会导致如此结果。挖矿？脚本批量撸？谁知道呢。</p>
+<p><strong>也有大佬预测，再次开放时，额度将会被砍，就像一开始的5000刀-&gt;3500刀一样。</strong></p>
+<h2 id="azure200">Azure200:</h2>
+
+            </div>
+            
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
           </div>
+
         </div>
       </div>
     </div>
@@ -109,6 +148,29 @@ var app = new Vue({
 </script>
 
 
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '5ae884c42902d75ef26f',
+        clientSecret: '8c929a47d6dface490e70408c86bcc23c9744c24',
+        repo: 'dream-huan.github.io',
+        owner: 'dream-huan',
+        admin: ['dream-huan'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 

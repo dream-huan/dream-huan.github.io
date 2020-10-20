@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Codeforces #677 div3 A-E题解 | Dream</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://dream-huan.github.io//favicon.ico?v=1603213526375">
+<link rel="stylesheet" href="https://dream-huan.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="以下题解仅代表个人思维，无法保证一定为最优解。
+蒟蒻的代码，大神轻喷。
+A Boring Apartments
+题目：
+
+There is a building consisting of 10 000 apartments numbere..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://dream-huan.github.io/">
+        <img src="https://dream-huan.github.io//images/avatar.png?v=1603213526375" class="site-logo">
+        <h1 class="site-title">Dream</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/dream-huan" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      一个菜鸡的博客呀~
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://dream-huan.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Codeforces #677 div3 A-E题解</h2>
+            <div class="post-date">2020-10-21</div>
+            
+            <div class="post-content" v-pre>
+              <p>以下题解仅代表个人思维，无法保证一定为最优解。<br>
+<strong>蒟蒻的代码，大神轻喷。</strong></p>
+<h1 id="a-boring-apartments">A Boring Apartments</h1>
+<h3 id="题目">题目：</h3>
+<blockquote>
+<p><strong>There is a building consisting of 10 000 apartments numbered from 1 to 10 000, inclusive.<br>
+Call an apartment boring, if its number consists of the same digit. Examples of boring apartments are 11,2,777,9999 and so on.<br>
+Our character is a troublemaker, and he calls the intercoms of all boring apartments, till someone answers the call, in the following order:<br>
+First he calls all apartments consisting of digit 1, in increasing order (1,11,111,1111).<br>
+Next he calls all apartments consisting of digit 2, in increasing order (2,22,222,2222) And so on.<br>
+The resident of the boring apartment x answers the call, and our character stops calling anyone further.<br>
+Our character wants to know how many digits he pressed in total and your task is to help him to count the total number of keypresses.<br>
+For example, if the resident of boring apartment 22 answered, then our character called apartments with numbers 1,11,111,1111,2,22 and the total number of digits he pressed is 1+2+3+4+1+2=13.<br>
+You have to answer t independent test cases.</strong></p>
+</blockquote>
+<h3 id="大意">大意：</h3>
+<p>有一个1-10000的公寓，门牌号仅由单一数字组成的公寓称为无聊公寓（比如1，11，22，2222），无聊公寓从1开始数（1，11，111，1111，2，22，222，2222，3......），给你一个无聊公寓的门牌号，问你这个门牌号的尾数是他数的第几位数。</p>
+<h3 id="题解">题解：</h3>
+<p>考虑一个数字的所属门牌号为10个数字，并且按顺序数，我们就可以得知他前面数了几位数。我们只需要统计它字符串的数量即可得知后面数了几位数。</p>
+<h3 id="代码">代码：</h3>
+<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+int main()
+{
+    int t;
+    cin&gt;&gt;t;
+    while(t--){
+        string x;
+        cin&gt;&gt;x;
+        int d;
+        if(x.length()==1) d=1;
+        if(x.length()==2) d=3;
+        if(x.length()==3) d=6;
+        if(x.length()==4) d=10;
+        cout&lt;&lt;(x[0]-'1')*10+d&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+<h1 id="b-yet-another-bookshelf">B Yet Another Bookshelf</h1>
+<h3 id="题目-2">题目：</h3>
+<blockquote>
+<p><strong>There is a bookshelf which can fit n books. The i-th position of bookshelf is ai=1 if there is a book on this position and ai=0 otherwise. It is guaranteed that there is at least one book on the bookshelf.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>In one move, you can choose some contiguous segment [l;r] consisting of books (i.e. for each i from l to r the condition ai=1 holds) and:</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Shift it to the right by 1: move the book at index i to i+1 for all l≤i≤r. This move can be done only if r+1≤n and there is no book at the position r+1.<br>
+Shift it to the left by 1: move the book at index i to i−1 for all l≤i≤r.This move can be done only if l−1≥1 and there is no book at the position l−1.<br>
+Your task is to find the minimum number of moves required to collect all the books on the shelf as a contiguous (consecutive) segment (i.e. the segment without any gaps).</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>For example, for a=[0,0,1,0,1] there is a gap between books (a4=0 when a3=1 and a5=1), for a=[1,1,0] there are no gaps between books and for a=[0,0,0] there are also no gaps between books.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>You have to answer t independent test cases.</strong></p>
+</blockquote>
+<h3 id="大意-2">大意：</h3>
+<p><strong>在一个书柜里有若干本书（用1表示），也有一些空位（用0表示），一次只能把书移动一个位置。问你将书全部整合到一起需要多少步。</strong></p>
+<h3 id="题解-2">题解：</h3>
+<p><strong>考虑将所有书全部往中间放，那么首先去掉两边的0。最后只需统计第一个1和最后一个1中间有多少个0即为多少步。</strong></p>
+<h3 id="代码-2">代码：</h3>
+<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+int main()
+{
+    int t;
+    cin&gt;&gt;t;
+    while(t--){
+        int n,a[55],ans1=0,ans2=0,di1=-1,di2,di3;
+        cin&gt;&gt;n;
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+            if(a[i]==1&amp;&amp;di1==-1){
+                di1=1;
+                di2=i;
+            }
+            if(a[i]==1) di3=i;
+        }
+        for(int i=di2;i&lt;di3;i++){
+            if(a[i]==0) ans1++;
+        }
+        cout&lt;&lt;ans1&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+<h1 id="c-dominant-piranha">C Dominant Piranha</h1>
+<h3 id="题目-3">题目：</h3>
+<blockquote>
+<p><strong>There are n piranhas with sizes a1,a2,…,an in the aquarium. Piranhas are numbered from left to right in order they live in the aquarium.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Scientists of the Berland State University want to find if there is dominant piranha in the aquarium. The piranha is called dominant if it can eat all the other piranhas in the aquarium (except itself, of course). Other piranhas will do nothing while the dominant piranha will eat them.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Because the aquarium is pretty narrow and long, the piranha can eat only one of the adjacent piranhas during one move. Piranha can do as many moves as it needs (or as it can). More precisely:</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>The piranha i can eat the piranha i−1 if the piranha i−1 exists and ai−1&lt;ai.The piranha i can eat the piranha i+1 if the piranha i+1 exists and ai+1&lt;ai.When the piranha i eats some piranha, its size increases by one (ai becomes ai+1).</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Your task is to find any dominant piranha in the aquarium or determine if there are no such piranhas.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Note that you have to find any (exactly one) dominant piranha, you don't have to find all of them.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>For example, if a=[5,3,4,4,5], then the third piranha can be dominant. Consider the sequence of its moves:</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>The piranha eats the second piranha and a becomes [5,5–,4,5] (the underlined piranha is our candidate).</strong><br>
+The piranha eats the third piranha and a becomes [5,6–,5].<br>
+The piranha eats the first piranha and a becomes [7–,5].<br>
+The piranha eats the second piranha and a becomes [8–].<br>
+<strong>You have to answer t independent test cases.</strong></p>
+</blockquote>
+<h3 id="大意-3">大意：</h3>
+<p>选出一条鱼，这条鱼有可能能够将其余所有鱼全部吃掉。<br>
+鱼可以吃左边的或右边的（前提ai大于左边或右边），吃完后，这条鱼的ai值+1<br>
+问你是哪条鱼有机会可以将所有鱼吃掉</p>
+<h3 id="题解-3">题解：</h3>
+<p>找出ai值最大的鱼即可，但有几个限制条件：<br>
+首先不能所有鱼ai值都最大，即ai值全部相等，只有这种情况才输出-1（即无解）<br>
+第二就是ai值最大的鱼未必是最有潜力的，比如他被另一个ai值最大的包围：<br>
+5 5 2 1 3<br>
+这种情况第一个鱼肯定不能被选，只能选第二种鱼<br>
+2 2 1 5 5<br>
+这种情况最后一条鱼不能选<br>
+2 5 5 5 2<br>
+这种情况只能选第二或第四条鱼<br>
+排除了这些情况就能得出结果了</p>
+<h3 id="代码-3">代码：</h3>
+<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+int main()
+{
+    int t;
+    cin&gt;&gt;t;
+    while(t--){
+        int n,a[300005],maxm=-1,madi=-1,ans=1,temp=-1;
+        cin&gt;&gt;n;
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+            /*if(a[i]&gt;=maxm&amp;&amp;i==0&amp;&amp;a[i+1]&lt;maxm){
+                maxm=a[i];
+                madi=i;
+            }
+            if(a[i]&gt;=maxm&amp;&amp;i==n-1&amp;&amp;a[i-1]&lt;maxm){
+                maxm=a[i];
+                madi=i;
+            }*/
+            if(i&gt;=1&amp;&amp;a[i]==a[i-1]) ans++;
+        }
+        for(int i=0;i&lt;n;i++){
+            if(a[i]&gt;=maxm&amp;&amp;temp==-1){
+                maxm=a[i];
+                temp=1;
+            }
+            if(a[i]&gt;=maxm&amp;&amp;(a[i-1]&lt;maxm||a[i+1]&lt;maxm)){
+                maxm=a[i];
+                madi=i;
+            }
+        }
+        if(ans==n) cout&lt;&lt;-1&lt;&lt;endl;
+        else cout&lt;&lt;madi&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre>
+<p>代码有些长，主要当时心情有些烦躁。。有bug改不出来，应该是能修改得更短一些。</p>
+<h1 id="d-districts-connection">D  Districts Connection</h1>
+<h3 id="题目-4">题目：</h3>
+<blockquote>
+<p><strong>There are n districts in the town, the i-th district belongs to the ai-th bandit gang. Initially, no districts are connected to each other.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>You are the mayor of the city and want to build n−1 two-way roads to connect all districts (two districts can be connected directly or through other connected districts).</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>If two districts belonging to the same gang are connected directly with a road, this gang will revolt.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>You don't want this so your task is to build n−1 two-way roads in such a way that all districts are reachable from each other (possibly, using intermediate districts) and each pair of directly connected districts belong to different gangs, or determine that it is impossible to build n−1 roads to satisfy all the conditions.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>You have to answer t independent test cases.</strong></p>
+</blockquote>
+<h3 id="大意-4">大意：</h3>
+<p>有一个城区有一些黑帮，数字相同则代表他们的黑帮相同，市长现在想要设计n-1条道路，用于连接不同的区域，但是同一黑帮连在一起容易造反，避开将同一黑帮连在一起。</p>
+<h3 id="题解-4">题解：</h3>
+<p>三种情况：<br>
+1.都是同一黑帮：无解<br>
+2.有一个黑帮只在一个区域存在：<br>
+连接该区域到所有区域即可<br>
+3.最低都有至少两个黑帮存在：<br>
+找出两个不同的黑帮，互相连接不同区域即可</p>
+<h3 id="代码-4">代码：</h3>
+<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+int main()
+{
+    int t;
+    cin&gt;&gt;t;
+    while(t--){
+        int n,a[5005],k=0;
+        unordered_map&lt;int,int&gt;b;
+        set&lt;int&gt;c;
+        cin&gt;&gt;n;
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+            b[a[i]]++;
+        }
+        for(int i=0;i&lt;n;i++){
+            if(b[a[i]]==n){
+                cout&lt;&lt;&quot;NO&quot;&lt;&lt;endl;
+                k=1;
+                break;
+            }
+            else if(b[a[i]]==1){
+                cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
+                for(int j=0;j&lt;n;j++){
+                    if(i!=j) cout&lt;&lt;i+1&lt;&lt;&quot; &quot;&lt;&lt;j+1&lt;&lt;endl;
+                }
+                k=1;
+                break;
+            }
+        }
+        if(k) continue;
+        int t1=a[0],t2,index2;
+        for(int i=0;i&lt;n;i++){
+            if(a[i]!=t1){
+                t2=a[i];
+                index2=i;
+                break;
+            }
+        }
+        cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
+        for(int i=0;i&lt;n;i++){
+            if(a[i]!=t1&amp;&amp;i!=index2) cout&lt;&lt;1&lt;&lt;&quot; &quot;&lt;&lt;i+1&lt;&lt;endl;
+            else if(a[i]==t1) cout&lt;&lt;index2+1&lt;&lt;&quot; &quot;&lt;&lt;i+1&lt;&lt;endl;
+        }
+    }
+    return 0;
+}
+</code></pre>
+<h1 id="e-two-round-dances">E Two Round Dances</h1>
+<h3 id="题目-5">题目：</h3>
+<blockquote>
+<p><strong>One day, n people (n is an even number) met on a plaza and made two round dances, each round dance consists of exactly n2 people. Your task is to find the number of ways n people can make two round dances if each round dance consists of exactly n2 people. Each person should belong to exactly one of these two round dances.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Round dance is a dance circle consisting of 1 or more people. Two round dances are indistinguishable (equal) if one can be transformed to another by choosing the first participant. For example, round dances [1,3,4,2], [4,2,1,3] and [2,1,3,4] are indistinguishable.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>For example, if n=2 then the number of ways is 1: one round dance consists of the first person and the second one of the second person.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>For example, if n=4 then the number of ways is 3. Possible options:</strong></p>
+</blockquote>
+<p>one round dance — [1,2], another — [3,4];<br>
+one round dance — [2,4], another — [3,1];<br>
+one round dance — [4,1], another — [3,2].</p>
+<blockquote>
+<p><strong>Your task is to find the number of ways n people can make two round dances if each round dance consists of exactly n2 people.</strong></p>
+</blockquote>
+<h3 id="题解-5">题解：</h3>
+<p>n不大于20，打表即可，问题同等与问你无定向简单图节点{1，2，...，n}和边沿{i，j}的复杂度。</p>
+<h3 id="代码-5">代码：</h3>
+<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+ll a[21]={0,1, 1, 1, 3, 8, 40, 180, 1260, 8064, 72576, 604800, 6652800, 68428800, 889574400, 10897286400, 163459296000, 2324754432000, 39520825344000, 640237370572800, 12164510040883200};
+int main()
+{
+    int n;
+    cin&gt;&gt;n;
+    cout&lt;&lt;a[n]&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://dream-huan.github.io/post/cde-stlvectormapsetpair-deng-deng/">
+                  <h3 class="post-title">
+                    C++的STL(vector,map,set,pair等等)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '5ae884c42902d75ef26f',
+        clientSecret: '8c929a47d6dface490e70408c86bcc23c9744c24',
+        repo: 'dream-huan.github.io',
+        owner: 'dream-huan',
+        admin: ['dream-huan'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
